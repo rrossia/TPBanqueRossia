@@ -25,9 +25,9 @@ public class Init {
     
     @PostConstruct
     public void initialise(){
-    /*  if(compte.getAllComptes().size()!=0){
-          return;
-      }*/
+       if(compte.nbComptes()!=0){
+           return;
+       }
        compte.creerCompte(new CompteBancaire("John Lennon",150000));
        compte.creerCompte(new CompteBancaire("Paul McCartney", 950000));
        compte.creerCompte(new CompteBancaire("Ringo Starr", 20000));
