@@ -9,12 +9,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  *
  * @author Rossia
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "CompteBancaire.findAll", query = "SELECT c FROM CompteBancaire c")})
+
 public class CompteBancaire implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -46,23 +51,24 @@ public class CompteBancaire implements Serializable {
     public Long getId() {
         return id;
     }
-    
-    public CompteBancaire(String nom, int solde) {  
-  this.nom = nom;  
-  this.solde = solde;  
-}  
-                  
-public void deposer(int montant) {  
-  solde += montant;  
-}  
-                  
-public void retirer(int montant) {  
-  if (montant < solde) {  
-    solde -= montant;  
-  } else {
-    solde = 0;
-  }  
-}
+
+    public CompteBancaire(String nom, int solde) {
+        this.nom = nom;
+        this.solde = solde;
+    }
+
+    public void deposer(int montant) {
+        solde += montant;
+    }
+
+    public void retirer(int montant) {
+        if (montant < solde) {
+            solde -= montant;
+        } else {
+            solde = 0;
+        }
+    }
+
     //il faut l'enlever car on ne doit pas modifier la clé primaire
     /*public void setId(Long id) {
         this.id = id;
@@ -92,5 +98,5 @@ public void retirer(int montant) {
     public String toString() {
         return "mg.itu.tpbanquerossia.entities.CompteBancaire[ id=" + id + " ]";
     }
-    
+
 }
