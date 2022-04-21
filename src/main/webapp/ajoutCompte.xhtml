@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./WEB-INF/templates/template_defaut.xhtml">
+
+            <ui:define name="top">
+                Ajouter un compte bancaire
+            </ui:define>
+
+            <ui:define name="content">
+                 <h:form id="form">
+                    <h:panelGrid columns="3">
+                        Nom de compte : 
+                        <h:inputText id="nom" size="3" value="#{ajouterCompte.nom}"
+                                     required="true"
+                                     converterMessage="Le nom est un character"
+                                     requiredMessage="Le nom de compte est obligatoire"/>
+                        <h:message for="nom"/>
+                          Solde de compte : 
+                        <h:inputText id="solde" size="3" value="#{ajouterCompte.solde}"
+                                     required="true"
+                                     converterMessage="Le solde  est un nombre entier"
+                                     requiredMessage="Le solde de compte est obligatoire"/>
+                        <h:message for="solde"/>
+                       <h:button id="back" value="Revenir au menu" outcome="index"/>
+                       
+                       <h:messages globalOnly="true" />
+                      <h:commandButton id="ajout" value="Enregistrer" action="#{ajouterCompte.ajouter}"/>
+                    </h:panelGrid>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
