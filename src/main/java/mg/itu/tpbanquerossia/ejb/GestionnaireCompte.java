@@ -58,6 +58,12 @@ public class GestionnaireCompte {
         return em.find(CompteBancaire.class,id);
     }
     
+    public int solde(Long id){
+         TypedQuery<Integer> query
+                = em.createQuery("select c.solde from CompteBancaire c where c.id=:id", Integer.class);
+        return query.getSingleResult();
+    }
+    
     public CompteBancaire update(CompteBancaire compte){
         return em.merge(compte);
     }

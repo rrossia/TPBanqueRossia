@@ -4,23 +4,29 @@
  */
 package mg.itu.tpbanquerossia.managedbean;
 
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
-import java.io.Serializable;
 import javax.ejb.EJB;
+import javax.inject.Named;
+import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import mg.itu.tpbanquerossia.ejb.GestionnaireCompte;
+import mg.itu.tpbanquerossia.entities.CompteBancaire;
 
 /**
  *
  * @author Rossia
+ * L'objet ne va intervenir qu'à chaque demande de transaction:RequestScoped
  */
 @Named(value = "transfertMBean")
-@ViewScoped
-public class TransfertMBean implements Serializable {
+@RequestScoped
+public class TransfertMBean {
+
+    
     private Long idRetrait;
     private Long idDeposer;
     private int montant;
-    
+    boolean erreur = false;
+
     public void setIdRetrait(Long idRetrait) {
         this.idRetrait = idRetrait;
     }
@@ -32,30 +38,61 @@ public class TransfertMBean implements Serializable {
     public void setMontant(int montant) {
         this.montant = montant;
     }
-    
-    public Long getIdRetrait(){
+
+    public Long getIdRetrait() {
         return idRetrait;
-    }  
-    public Long getIdDeposer(){
+    }
+
+    public Long getIdDeposer() {
         return idDeposer;
     }
-    public int getMontant(){
+
+    public int getMontant() {
         return montant;
     }
 
-    
     @EJB
     private GestionnaireCompte compte;
+
     /**
      * Creates a new instance of TransfertMBean
      */
     public TransfertMBean() {
-    
+
     }
 
-    public String update(){
-        compte.transfertArgent(idRetrait,idDeposer,montant);
-        return "listeComptes";
+    /*public static void message(String messageDetail, String messageResume,
+            FacesMessage.Severity severite, String champ) {
+        FacesMessage msg
+                = new FacesMessage(severite, messageResume, messageDetail);
+        FacesContext.getCurrentInstance().addMessage(champ, msg);
+    }*/
+
+    public String update() {
+        if (compte.recupererCompteById(idRetrait) == null) {
+            //Util.messageErreur("Pas de compte trouvé pour cet id", "Pas de compte trouvé pour cet id", "form:source");
+            //erreur = true;
+            FacesMessage message = new FacesMessage( "Pas de compte trouvé pour cet id!");
+            FacesContext.getCurrentInstance().addMessage( null , message );
+            return "listeComptes";
+        }
+        if (compte.recupererCompteById(idDeposer) == null) {
+            FacesMessage message = new FacesMessage( "Pas de compte trouvé pour cet id!");
+            FacesContext.getCurrentInstance().addMessage( null, message );
+            return "listeComptes";
+        } 
+        if (compte.solde(idRetrait) < montant) {
+                FacesMessage message = new FacesMessage( "Reste du compte insuffisant");
+                FacesContext.getCurrentInstance().addMessage( "montant", message );
+                return "listeComptes";
+        }
+        else{
+        compte.transfertArgent(idRetrait, idDeposer, montant);
+        FacesMessage message = new FacesMessage( "Succès de transaction !" );
+        FacesContext.getCurrentInstance().addMessage( null, message );
+       // Util.addFlashInfoMessage("Transfert correctement effectué");
+       return "listeComptes";
+        }
+        
     }
-    
 }
