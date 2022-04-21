@@ -35,4 +35,6 @@ public class CompteBancaireMBean implements Serializable {
         }
         return compteBancaireList;
     }
+    
+    
 }

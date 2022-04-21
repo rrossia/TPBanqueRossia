@@ -9,7 +9,6 @@ import javax.annotation.sql.DataSourceDefinition;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import mg.itu.tpbanquerossia.entities.CompteBancaire;
 
@@ -53,5 +52,22 @@ public class GestionnaireCompte {
         TypedQuery<Long> query
                 = em.createQuery("select count(c) from CompteBancaire c", Long.class);
         return query.getSingleResult();
+    }
+    
+    public CompteBancaire recupererCompteById(Long id){
+        return em.find(CompteBancaire.class,id);
+    }
+    
+    public CompteBancaire update(CompteBancaire compte){
+        return em.merge(compte);
+    }
+    
+    public void transfertArgent(Long idRetrait,Long idDeposer,int montant){
+        CompteBancaire source = recupererCompteById(idRetrait);
+        CompteBancaire depot = recupererCompteById(idDeposer);
+        source.retirer(montant);
+        depot.deposer(montant);
+        update(source);
+        update(depot);
     }
 }
