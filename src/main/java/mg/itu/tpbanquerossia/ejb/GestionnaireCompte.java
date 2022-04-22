@@ -47,33 +47,47 @@ public class GestionnaireCompte {
         //Query query =em.createNamedQuery("CompteBancaire.findAll");
         return query.getResultList();
     }
-    
+
     public Long nbComptes() {
         TypedQuery<Long> query
                 = em.createQuery("select count(c) from CompteBancaire c", Long.class);
         return query.getSingleResult();
     }
-    
-    public CompteBancaire recupererCompteById(Long id){
-        return em.find(CompteBancaire.class,id);
+
+    public CompteBancaire recupererCompteById(Long id) {
+        return em.find(CompteBancaire.class, id);
     }
-    
-    public int solde(Long id){
-         TypedQuery<Integer> query
+
+    public int solde(Long id) {
+        TypedQuery<Integer> query
                 = em.createQuery("select c.solde from CompteBancaire c where c.id=:id", Integer.class);
         return query.getSingleResult();
     }
-    
-    public CompteBancaire update(CompteBancaire compte){
+
+    public CompteBancaire update(CompteBancaire compte) {
         return em.merge(compte);
     }
-    
-    public void transfertArgent(Long idRetrait,Long idDeposer,int montant){
+
+    public void transfertArgent(Long idRetrait, Long idDeposer, int montant) {
         CompteBancaire source = recupererCompteById(idRetrait);
         CompteBancaire depot = recupererCompteById(idDeposer);
         source.retirer(montant);
         depot.deposer(montant);
         update(source);
         update(depot);
+    }
+
+    public void deposerArgent(CompteBancaire compte, int montant) {
+        compte.deposer(montant);
+        update(compte);
+    }
+
+    public void retirerArgent(CompteBancaire compte, int montant) {
+        compte.retirer(montant);
+        update(compte);
+    }
+
+    public void supprimerCompte(CompteBancaire compte) {
+        em.remove(em.merge(compte));
     }
 }

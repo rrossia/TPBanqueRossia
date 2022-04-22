@@ -99,4 +99,5 @@ public class CompteBancaire implements Serializable {
         return "mg.itu.tpbanquerossia.entities.CompteBancaire[ id=" + id + " ]";
     }
 
+
 }

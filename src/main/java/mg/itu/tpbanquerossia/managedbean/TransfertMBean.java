@@ -25,7 +25,7 @@ public class TransfertMBean {
     private Long idRetrait;
     private Long idDeposer;
     private int montant;
-    boolean erreur = false;
+    private CompteBancaire compteBancaire;
 
     public void setIdRetrait(Long idRetrait) {
         this.idRetrait = idRetrait;
@@ -68,6 +68,7 @@ public class TransfertMBean {
         FacesContext.getCurrentInstance().addMessage(champ, msg);
     }*/
 
+    
     public String update() {
         if (compte.recupererCompteById(idRetrait) == null) {
             //Util.messageErreur("Pas de compte trouvé pour cet id", "Pas de compte trouvé pour cet id", "form:source");

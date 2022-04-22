@@ -9,6 +9,9 @@ import javax.faces.view.ViewScoped;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import jsf.Util;
 import mg.itu.tpbanquerossia.ejb.GestionnaireCompte;
 import mg.itu.tpbanquerossia.entities.CompteBancaire;
 
@@ -19,21 +22,31 @@ import mg.itu.tpbanquerossia.entities.CompteBancaire;
 @Named(value = "listeComptes")
 @ViewScoped
 public class ListeComptes implements Serializable {
+
     private List<CompteBancaire> compteBancaireList;
-    
+
     @EJB
     private GestionnaireCompte compte;
+
     /**
      * Creates a new instance of ListeComptes
      */
     public ListeComptes() {
     }
-    
-    public List<CompteBancaire> getAllComptes(){
-         if(compteBancaireList==null){
+
+    public List<CompteBancaire> getAllComptes() {
+        if (compteBancaireList == null) {
             compteBancaireList = compte.getAllComptes();
         }
         return compteBancaireList;
     }
-    
+
+    public String supprimerCompte(CompteBancaire compteBancaire) {
+        compte.supprimerCompte(compteBancaire);
+        //FacesMessage message = new FacesMessage("Compte de " + compteBancaire.getNom() + " supprimé");
+        //FacesContext.getCurrentInstance().addMessage(null, message);
+        Util.addFlashInfoMessage("Compte de " + compteBancaire.getNom() + " supprimé");
+        return "listeComptes?faces-redirect=true";
+    }
+
 }
