@@ -27,19 +27,17 @@
                             <h:outputLabel value="Nom:" for="nom" />
                             <h:inputText id="nom" value="#{depotRetraitMBean.compte.nom}" title="Nom" />
                             <h:outputLabel value="Solde:" for="solde" />
-                            <h:inputText id="montant" size="10" value="#{transfertMBean.montant}"
+                            <h:inputText id="montant" size="10" value="#{depotRetraitMBean.montant}"
                                          required="true"
                                          converterMessage="Le montant est un nombre entier"
                                          title="Montant" 
                                          />
-                            <h:commandButton id="deposer" value="Déposer argent" action="#{depotRetraitMBean.deposer}"/>
-                            <h:commandButton id="retirer" value="Rétirer argent" action="#{depotRetraitMBean.retirer}"/>
                         </h:panelGrid>
+                        <h:commandButton id="deposer" value="Déposer argent" action="#{depotRetraitMBean.deposer()}"/>
+                        <h:commandButton id="retirer" value="Rétirer argent" action="#{depotRetraitMBean.retirer()}"/>
                     </h:form>
                 </f:view>
-
             </ui:define>
-
         </ui:composition>
 
     </body>

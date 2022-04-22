@@ -48,7 +48,7 @@ public class DepotRetraitMBean implements Serializable {
     }
 
     public void loadCompte() {
-        this.compteBancaire = compte.recupererCompteById(idCompte);
+        compteBancaire = compte.recupererCompteById(idCompte);
     }
 
     public String deposer() {
