@@ -39,15 +39,21 @@
                                 </f:facet>
                                 <h:outputText value="#{item.solde}"/>
                             </p:column>
-                             <p:column width="5">
-                        <f:facet name="header">
-                            <h:outputText value="Opérations"/>
-                        </f:facet>
-                        <h:commandLink action="#{listeComptes.supprimerCompte(item)}"
-                                       title="Supprimer le compte de #{item.nom}" >
-                            <h:graphicImage name="images/del.jpg"/>
-                        </h:commandLink>
-                    </p:column>
+                             <p:column width="100">
+                                <f:facet name="header">
+                                    <h:outputText value="Modifier"/>
+                                </f:facet>
+                                    <h:link outcome="ModifierCompte?id=#{item.id}" value="modifier"/>
+                            </p:column>
+                            <p:column width="100">
+                                <f:facet name="header">
+                                    <h:outputText value="Opérations"/>
+                                </f:facet>
+                                <h:commandLink action="#{listeComptes.supprimerCompte(item)}"
+                                               title="Supprimer le compte de #{item.nom}" >
+                                    <h:graphicImage width="50" name="/images/del.jpg"/>
+                                </h:commandLink>
+                            </p:column>
                         </p:dataTable>
                     </h:form>
                 </f:view>
